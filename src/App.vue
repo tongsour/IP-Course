@@ -1,85 +1,77 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+<script>
+import Category from './components/Category.vue';
+import Promotion from './components/Promotion.vue';
+
+export default {
+  components: {
+    Category,
+    Promotion
+  },
+  data() {
+    return {
+      categories: [
+        { image: '/image/cakeandmilk.png', name: 'Cake & Milk', itemCount: 14 , backgroundColor: '#F2FCE4'},
+        { image: '/image/peach.png', name: 'Peach', itemCount: 17 , backgroundColor: '#FFFCEB'},
+        { image: '/image/kiwi.png', name: 'Oganic Kiwi', itemCount: 21 , backgroundColor: '#ECFFEC'},
+        { image: '/image/apple.png', name: 'Red Apple', itemCount: 68 , backgroundColor: '#FEEFEA'},
+        { image: '/image/snake.png', name: 'Snake', itemCount: 34 , backgroundColor: '#FFF3EB'},
+        { image: '/image/plum.png', name: 'Black Plum', itemCount: 25 , backgroundColor: '#FFF3FF'},
+        { image: '/image/cabbage.png', name: 'Vegetables', itemCount: 65 , backgroundColor: '#F2FCE4'},
+        { image: '/image/headphone.png', name: 'Headphone', itemCount: 34 , backgroundColor: '#FFFCEB'},
+        { image: '/image/milk&cake.png', name: 'Milk & Cake', itemCount: 53, backgroundColor: '#F2FCE4'},
+        { image: '/image/orange.png', name: 'Orange', itemCount: 63, backgroundColor: '#FFF3FF' },
+      ],
+      promotions: [
+        { title: 'Everyday Fresh & Clean with Our Products', image: '/image/onion.png', width: 200,backgroundColor: '#F0E8D5'},
+        { title: 'Make your Breakfast Healthy and Easy', image: '/image/milk.png', width: 150, backgroundColor: '#F3E8E8'},
+        { title: 'The best Organic Products Online', image: '/image/vegetables.png', width: 240, backgroundColor: '#E7EAF3'}
+      ]
+    }
+  }
+}
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+  <div id="app">
+    <div class="category-card">
+      <Category
+        v-for="(category, index) in categories"
+        :key="index"
+        :image="category.image"
+        :name="category.name"
+        :itemCount="category.itemCount"
+        :backgroundColor="category.backgroundColor"
+      />
     </div>
-  </header>
 
-  <RouterView />
+    <div class="promotion-section">
+      <Promotion
+        v-for="(promotion, index) in promotions"
+        :key="index"
+        :title="promotion.title"
+        :description="promotion.description"
+        :image="promotion.image"
+        :backgroundColor="promotion.backgroundColor"
+        :width="promotion.width"
+      />
+    </div>
+  </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+#app{
+  display: flex;
+  flex-direction: column;
 }
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.category-card {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
 }
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.promotion-section {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  margin-top: 20px;
 }
 </style>
