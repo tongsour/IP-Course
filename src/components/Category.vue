@@ -38,7 +38,7 @@ export default {
 }
 .name{
     color: #253D4E;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 .itemCount{
     color:#B6B6B6;

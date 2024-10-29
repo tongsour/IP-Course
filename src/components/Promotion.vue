@@ -29,7 +29,7 @@ export default {
     border: none;
     padding: 10px;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(24, 165, 60, 0.1);
     position: relative;
 }
 
@@ -43,9 +43,11 @@ export default {
     bottom: 0px;
 }
 .title {
+
     text-align: start;
     color: #253D4E;
     padding: 0 0 60px 25px;
     width: 225px;
+    
 }
 </style>

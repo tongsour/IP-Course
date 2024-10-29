@@ -6,13 +6,15 @@
 
 <script>
 export default {
+    
     name: "ShopButton"
+
 };
 </script>
 
 <style scoped>
 .shop-btn {
-    background-color: #00C851;
+    background-color: #001ec8;
     color: white;
     border: none;
     padding: 10px;
