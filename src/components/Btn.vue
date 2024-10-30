@@ -10,6 +10,7 @@ export default {
     name: "ShopButton"
 
 };
+
 </script>
 
 <style scoped>
