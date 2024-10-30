@@ -26,8 +26,8 @@ export default {
         { title: 'Make your Breakfast Healthy and Easy', image: '/image/milk.png', width: 150, backgroundColor: '#F3E8E8'},
         { title: 'The best Organic Products Online', image: '/image/vegetables.png', width: 240, backgroundColor: '#E7EAF3'}
       ]
-    }
-  }
+    };
+  }  
 }
 </script>
 

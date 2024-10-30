@@ -6,10 +6,13 @@
 
 <script>
 export default {
-    
-    name: "ShopButton"
-
+    data(){
+        return{
+        name: "ShopButton"
+        }
+    },
 };
+
 
 </script>
 
