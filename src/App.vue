@@ -1,77 +1,61 @@
-<script>
-import Category from './components/Category.vue';
-import Promotion from './components/Promotion.vue';
-
-export default {
-  components: {
-    Category,
-    Promotion
-  },
-  data() {
-    return {
-      categories: [
-        { image: '/image/cakeandmilk.png', name: 'Cake & Milk', itemCount: 14 , backgroundColor: '#F2FCE4'},
-        { image: '/image/peach.png', name: 'Peach', itemCount: 17 , backgroundColor: '#FFFCEB'},
-        { image: '/image/kiwi.png', name: 'Oganic Kiwi', itemCount: 21 , backgroundColor: '#ECFFEC'},
-        { image: '/image/apple.png', name: 'Red Apple', itemCount: 68 , backgroundColor: '#FEEFEA'},
-        { image: '/image/snake.png', name: 'Snake', itemCount: 34 , backgroundColor: '#FFF3EB'},
-        { image: '/image/plum.png', name: 'Black Plum', itemCount: 25 , backgroundColor: '#FFF3FF'},
-        { image: '/image/cabbage.png', name: 'Vegetables', itemCount: 65 , backgroundColor: '#F2FCE4'},
-        { image: '/image/headphone.png', name: 'Headphone', itemCount: 34 , backgroundColor: '#FFFCEB'},
-        { image: '/image/milk&cake.png', name: 'Milk & Cake', itemCount: 53, backgroundColor: '#F2FCE4'},
-        { image: '/image/orange.png', name: 'Orange', itemCount: 63, backgroundColor: '#FFF3FF' },
-      ],
-      promotions: [
-        { title: 'Everyday Fresh & Clean with Our Products', image: '/image/onion.png', width: 200,backgroundColor: '#F0E8D5'},
-        { title: 'Make your Breakfast Healthy and Easy', image: '/image/milk.png', width: 150, backgroundColor: '#F3E8E8'},
-        { title: 'The best Organic Products Online', image: '/image/vegetables.png', width: 240, backgroundColor: '#E7EAF3'}
-      ]
-    };
-  }  
-}
-</script>
-
 <template>
-  <div id="app">
-    <div class="category-card">
+  <div class="flex flex-col">
+    <div
+      class="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-10 mt-10 w-full h-auto m-auto items-center mx-2"
+    >
       <Category
-        v-for="(category, index) in categories"
+        v-for="(f, index) in fruits"
         :key="index"
-        :image="category.image"
-        :name="category.name"
-        :itemCount="category.itemCount"
-        :backgroundColor="category.backgroundColor"
-      />
+        :name="f.name"
+        :image="f.image"
+        :productCount="f.productCount"
+        :color="f.color"
+      ></Category>
     </div>
-
-    <div class="promotion-section">
+    <div class="flex justify-center gap-2 mx-2">
       <Promotion
         v-for="(promotion, index) in promotions"
         :key="index"
         :title="promotion.title"
-        :description="promotion.description"
+        :color="promotion.color"
+        :buttonColor="promotion.buttonColor"
         :image="promotion.image"
-        :backgroundColor="promotion.backgroundColor"
-        :width="promotion.width"
-      />
+      ></Promotion>
     </div>
   </div>
 </template>
 
-<style scoped>
-#app{
-  display: flex;
-  flex-direction: column;
-}
-.category-card {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-}
-.promotion-section {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-  margin-top: 20px;
-}
-</style>
+<script setup>
+import axios from "axios";
+import { onMounted, ref } from "vue"; // Import required Vue functions
+import Category from "./components/Category.vue";
+import Promotion from "./components/Promotion.vue";
+// import Promotion from './components/Promotion.vue'; // Uncomment if needed
+
+const fruits = ref([]);
+const promotions = ref([]);
+
+// Fetching data when the component is mounted
+const fetchCategoryData = async () => {
+  try {
+    const response = await axios.get("http://localhost:3000/api/categories");
+    fruits.value = response.data;
+    console.log("Fetched category data:", response.data);
+  } catch (error) {
+    console.error("Error fetching category data:", error);
+  }
+};
+const fetchPromotionsData = async () => {
+  try {
+    const response = await axios.get("http://localhost:3000/api/promotions");
+    promotions.value = response.data;
+    console.log("Fetched Promotions data:", response.data);
+  } catch (error) {
+    console.error("Error fetching Promotions data:", error);
+  }
+};
+
+// Lifecycle hook to fetch data on component mount
+onMounted(fetchCategoryData);
+onMounted(fetchPromotionsData);
+</script>
