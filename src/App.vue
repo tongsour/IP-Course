@@ -1,9 +1,10 @@
 <script setup>
-import { onMounted, computed } from "vue"; // Add computed here
+import { onMounted, computed, ref } from "vue"; // Add computed here
 import { useProductStore } from "./stores/productStore"; // Import the store
 import Category from "./components/Category.vue";
 import Promotion from "./components/Promotion.vue";
-import FeatureCategory from "./components/FeatureCategory.vue";
+import Menu_component from "./components/Menu_component.vue";
+import Product_component from "./components/Product_component.vue";
 
 // Initialize the product store
 const productStore = useProductStore();
@@ -16,34 +17,49 @@ const selectGroup = (group) => {
   productStore.setSelectedGroup(group);
 };
 
+const categoryByGroup = (group) => {
+  productStore.setSelectedGroup(group); 
+  console.log("Selected group:", group);
+};
+
+const products = computed(() => {
+  if (selectedGroup.value === "") {
+    return productStore.products; // Show all products if no group is selected
+  }
+  return productStore.getProductsByGroup(selectedGroup.value); // Filtered products
+});
+
+const productByGroup = (group) => {
+  selectedGroup.value = group;
+  console.log("Selected group for products:", group);
+};
+const selectedGroup = ref("");
+
 // Fetch categories, promotions, and groups on component mount
 onMounted(async () => {
   await productStore.fetchCategories();
   await productStore.fetchPromotions();
   await productStore.fetchGroups();
+  await productStore.fetchProducts();
   console.log("Categories loaded:", productStore.categories);
   console.log("Promotions loaded:", productStore.promotions);
   console.log("Groups loaded:", productStore.groups);
+  console.log("Products loaded:", productStore.products);
 });
+
+const title = "feature categories";
+const titles = "Popular Products";
 </script>
 
 <template>
   <div id="app">
-    <div class="featured-categories">
-      <h1 class="text-3xl">Selected Items</h1>
-      <div class="button-group">
-        <!-- Display group names as buttons -->
-        <button
-          v-for="(group, index) in productStore.groups"
-          :key="index"
-          @click="() => selectGroup(group)"
-          class="feature-button"
-        >
-          {{ group }}
-        </button>
-      </div>
+    <div>
+      <Menu_component
+        :name = "title"
+        :group = "productStore.groups"
+        @group-select = categoryByGroup
+      />
     </div>
-
     <div class="category-card">
       <!-- Use filteredCategories to show categories based on selected group -->
       <Category
@@ -67,6 +83,21 @@ onMounted(async () => {
         :width="promotion.width"
       />
     </div>
+
+    <div>
+      <Menu_component
+        :name = "titles"
+        :group = "productStore.groups"
+        @group-select = productByGroup
+      />
+    </div>
+    
+    <div>
+      <Product_component
+        :products = "products"
+      />
+    </div>
+    
   </div>
 </template>
 
@@ -74,6 +105,9 @@ onMounted(async () => {
 #app {
   display: flex;
   flex-direction: column;
+  width: 2850px;
+  height: auto;
+  padding-bottom: 1000px;
 }
 
 .featured-categories {
@@ -105,7 +139,6 @@ onMounted(async () => {
 
 .category-card {
   display: flex;
-  justify-content: space-between;
   padding: 20px;
 }
 
