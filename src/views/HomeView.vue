@@ -6,46 +6,46 @@ import Promotion from "@/components/Promotion.vue";
 import Menu_component from "@/components/Menu_component.vue";
 import Product_component from "@/components/Product_component.vue";
 import { useProductStore } from "@/stores/productStore";
+import Showcase from "@/components/ShowCase_component.vue";
 
 // Store Initialization
 const productStore = useProductStore();
 
 // Reactive Variables
-const selectedGroup = ref("");
+const selectedCategoryGroup = ref("All");
+const selectedProductGroup = ref("All");
+const filteredCategories = ref([]);
+const filteredProducts = ref([]);
 
 // Computed Properties
-const filteredCategories = computed(() => productStore.filteredCategories);
-const products = computed(() => {
-  return selectedGroup.value === ""
-    ? productStore.products // Show all products if no group is selected
-    : productStore.getProductsByGroup(selectedGroup.value); // Filtered products
-});
+const promotions = computed(() => productStore.promotions);
+const allCategories = computed(() => productStore.categories);
+const allProducts = computed(() => productStore.products);
 
 // Methods
-const selectGroup = (group) => {
-  productStore.setSelectedGroup(group);
+const filterCategories = (group) => {
+  selectedCategoryGroup.value = group;
+  filteredCategories.value =
+    group === "All"
+      ? allCategories.value
+      : productStore.getCategoriesByGroup(group);
 };
 
-const categoryByGroup = (group) => {
-  productStore.setSelectedGroup(group);
-  console.log("Selected group:", group);
-};
-
-const productByGroup = (group) => {
-  selectedGroup.value = group;
-  console.log("Selected group for products:", group);
+const filterProducts = (group) => {
+  selectedProductGroup.value = group;
+  filteredProducts.value =
+    group === "All"
+      ? allProducts.value
+      : productStore.getProductsByGroup(group);
 };
 
 // Lifecycle Hook
 onMounted(async () => {
   await productStore.fetchCategories();
+  filteredCategories.value = allCategories.value;
   await productStore.fetchPromotions();
-  await productStore.fetchGroups();
   await productStore.fetchProducts();
-  console.log("Categories loaded:", productStore.categories);
-  console.log("Promotions loaded:", productStore.promotions);
-  console.log("Groups loaded:", productStore.groups);
-  console.log("Products loaded:", productStore.products);
+  filteredProducts.value = allProducts.value;
 });
 
 // Component Titles
@@ -53,34 +53,39 @@ const title = "Featured Categories";
 const titles = "Popular Products";
 </script>
 
-
 <template>
-  <div id="app">
+<div id="app">
+  <div>
+    <!--Showcase Component-->
+    <div>
+      <Showcase/>
+    </div>
+
     <!-- Menu Component for Category Selection -->
     <div>
       <Menu_component
         :name="title"
         :group="productStore.groups"
-        @group-select="categoryByGroup"
+        @group-select="filterCategories"
       />
     </div>
 
     <!-- Category Cards -->
     <div class="category-card">
       <Category
-        v-for="(f, index) in filteredCategories"
+        v-for="(category, index) in filteredCategories"
         :key="index"
-        :image="f.image"
-        :name="f.name"
-        :productCount="f.productCount"
-        :color="f.color"
+        :image="category.image"
+        :name="category.name"
+        :productCount="category.productCount"
+        :color="category.color"
       />
     </div>
 
     <!-- Promotions Section -->
     <div class="promotion-section">
       <Promotion
-        v-for="(promotion, index) in productStore.promotions"
+        v-for="(promotion, index) in promotions"
         :key="index"
         :title="promotion.title"
         :description="promotion.description"
@@ -95,27 +100,28 @@ const titles = "Popular Products";
       <Menu_component
         :name="titles"
         :group="productStore.groups"
-        @group-select="productByGroup"
+        @group-select="filterProducts"
       />
     </div>
 
     <!-- Product Component -->
     <div>
-      <Product_component :products="products" />
+      <Product_component
+        v-for="(product, index) in filteredProducts"
+        :key="index"
+        :productId="product.id"
+      />
     </div>
   </div>
+</div>
 </template>
-
 
 <style scoped>
 #app {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  align-content: start;
+  max-width: 100%;
 }
 
-.categorie-card {
+.category-card {
   display: inline-flex;
   gap: 15px;
   margin-top: 20px;
@@ -127,4 +133,3 @@ const titles = "Popular Products";
   margin-top: 30px;
 }
 </style>
-

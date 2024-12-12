@@ -1,9 +1,11 @@
 <template> 
-    <button class="category" :style="{ color: color }">
-      <img :src="image" alt="category image" class="category-img" />
-      <h3 class="name">{{ name }}</h3>
-      <p class="productCount">{{ productCount }} items</p>
-    </button>
+  <router-link to="/pageHeader" class="category">
+    <div class="category" :style="{ backgroundColor: categoryColor }">
+      <img :src="categoryImage" alt="category image" class="category-img" />
+      <p class="name">{{ categoryText }}</p>
+      <p class="productCount">{{ itemsCount }} items</p>
+    </div>
+  </router-link>
 </template> 
   <script>
   export default {

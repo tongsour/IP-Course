@@ -26,9 +26,10 @@ export default {
 <style scoped>
 .menu {
   display: flex;
-  flex-direction: column;
   gap: 10px;
   margin-bottom: 20px;
+  margin-top: 20px;
+  justify-content: space-between;
 }
 
 .title {

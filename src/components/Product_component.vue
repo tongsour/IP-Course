@@ -1,4 +1,5 @@
 <template>
+    <router-link to="/productDetail" class="product-link"></router-link>
     <div class="product-list">
       <div class="product" v-for="product in products" :key="product.id">
         <!-- Product Tag -->
