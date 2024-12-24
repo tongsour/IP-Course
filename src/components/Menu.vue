@@ -16,7 +16,7 @@
     <main class="menu-content">
       <h1>Welcome to Page {{ page }}</h1>
       <hr />
-      <p>This is Section {{ activeSection }} of Page {{ page }}</p>
+      <p v-if="activeSection">This is Section {{ activeSection }} of Page {{ page }}</p>
     </main>
   </div>
 </template>
@@ -38,7 +38,7 @@ export default {
         { id: 3, title: "Section 3" },
         { id: 4, title: "Section 4" },
       ],
-      activeSection: 1, 
+      activeSection: null, 
     };
   },
   methods: {
