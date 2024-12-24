@@ -1,44 +1,73 @@
 <template>
-  <div class="container">
-    <NavBar />
-    <div class="main-content">
-     <Menu/>
-      <router-view /> 
+  <div id="app">
+    <Header @page-changed="handlePageChanged" />
+    <Menu :page="currentPage" />
+    <div class="content">
+      <router-view />
     </div>
-    <Footer/>
+    <Footer />
   </div>
 </template>
 
 <script>
-import NavBar from "./components/NavBar.vue";
-import Menu from "./components/Menu.vue";
+import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
+import Menu from "./components/Menu.vue";
 
 export default {
+  name: "App",
   components: {
-    NavBar,
-    Menu,
+    Header,
     Footer,
+    Menu,
+  },
+  data() {
+    return {
+      currentPage: 1,
+    };
+  },
+  methods: {
+    handlePageChanged(pageNumber) {
+      this.currentPage = pageNumber;
+    },
   },
 };
 </script>
 
-<style>
-.container {
+<style scoped>
+#app {
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
-  height: 500px;
-  width: 750px;
+  height: 100vh;
+  width: 100%;
 }
 
-.main-content {
-  display: flex;
-  flex: 1;
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
-router-view {
+menu {
+  position: fixed;
+  top: 60px; /* Adjust based on the height of your header */
+  width: 200px; /* Adjust based on your menu width */
+  height: calc(100% - 60px); /* Adjust based on the height of your header */
+  z-index: 1000;
+}
+
+.content {
+  margin-top: 60px; /* Adjust based on the height of your header */
+  margin-left: 200px; /* Adjust based on your menu width */
   flex: 1;
-  padding: 20px;
+  overflow: auto;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 1000;
 }
 </style>

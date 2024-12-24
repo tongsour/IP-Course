@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h1>Welcome to Page 1</h1>
+    <h1>Page1</h1>
+    <p>This is Page1</p>
   </div>
 </template>
 

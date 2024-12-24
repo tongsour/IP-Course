@@ -1,11 +1,12 @@
 <template>
   <div>
-    <h1>Welcome to Page 3</h1>
+    <h1>Page2</h1>
+    <p>This is Page2</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Page3",
+  name: "Page2",
 };
 </script>

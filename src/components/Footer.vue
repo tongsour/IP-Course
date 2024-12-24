@@ -1,20 +1,18 @@
 <template>
     <footer>
-      <p>Footer</p>
+        <h1>Footer</h1>
     </footer>
-  </template>
-  
-  <script>
-  export default {
-    name: "Footer",
-  };
-  </script>
-  
-  <style>
-  footer {
-    background-color: #f0f0f0;
-    text-align: center;
-    padding: 10px;
-  }
-  </style>
-  
+</template>
+<script></script>
+<style>
+footer {
+  border: 1px solid black;
+  height: 4em;
+  color: black;
+  text-align: center;
+  padding: 1rem;
+  position: fixed; 
+  bottom: 0;
+  font-size: 0.9rem;
+}
+</style>
