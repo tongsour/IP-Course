@@ -39,7 +39,6 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  width: 100%;
 }
 
 header {
@@ -51,9 +50,9 @@ header {
 
 menu {
   position: fixed;
-  top: 60px; /* Adjust based on the height of your header */
-  width: 200px; /* Adjust based on your menu width */
-  height: calc(100% - 60px); /* Adjust based on the height of your header */
+  top: 60px; 
+  width: 200px; 
+  height: calc(100% - 60px); 
   z-index: 1000;
 }
 
